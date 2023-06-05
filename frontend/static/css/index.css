@@ -8,3 +8,17 @@
   /* color: #1677ff; */
   text-decoration: none;
 }
+.posts_container {
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.post_container {
+  display: block;
+  width: auto;
+  height: 300px;
+}
+.post_img {
+  height: 200px;
+}
