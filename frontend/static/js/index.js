@@ -3,7 +3,7 @@ import profile from "./views/profile/profile.js";
 import signup from "./views/signup/signup.js";
 import NotFound from "./views/NotFound.js";
 import nav from "./nav.js";
-const router = async () => {
+const router = () => {
   const routes = [
     { path: "/", view: home },
     { path: "/profile", view: profile },
@@ -26,7 +26,7 @@ const router = async () => {
   }
   const target = document.querySelector("#app");
   new nav(target);
-  const view = new match.route.view(target);
+  new match.route.view(target);
 };
 
 const navigateTo = (url) => {
