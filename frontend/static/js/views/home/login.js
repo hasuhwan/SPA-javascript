@@ -1,34 +1,52 @@
-const loginFormArr = [
-  { text: "이메일", name: "user-email", type: "email" },
-  { text: "비밀번호", name: "user-password", type: "password" },
-];
+import loginForm from "./loginForm.js";
+import logoutForm from "./logoutForm.js";
 export default class login {
   constructor(target) {
     this.target = target;
-    const $form = document.createElement("form");
-    const $buttonDiv = document.createElement("div");
-    const $loginButton = document.createElement("button");
-    $loginButton.innerText = "로그인";
+    this.state = {
+      login: false,
+      me: null,
+    };
+    this.$loginContainer = document.createElement("div");
+    this.$loginContainer.className = "login_container";
+    this.$logoutContainer = document.createElement("div");
+    this.$logoutContainer.className = "logout_container";
+    new loginForm(this.$loginContainer, this.submitLogin);
+    new logoutForm(this.$logoutContainer);
+    this.render();
+  }
 
-    const $signupButton = document.createElement("button");
-    $signupButton.innerHTML = `
-    <a href="/signup" class="nav_link" data-link>회원가입</a>
-    `;
-    loginFormArr.forEach((el) => {
-      const $inputDiv = document.createElement("div");
-      const $label = document.createElement("label");
-      $label.htmlFor = el.name;
-      $label.innerText = el.text;
-      const $input = document.createElement("input");
-      $input.type = el.type;
-      $input.name = el.name;
-      $inputDiv.appendChild($label);
-      $inputDiv.appendChild($input);
-      $form.appendChild($inputDiv);
-    });
-    $buttonDiv.appendChild($loginButton);
-    $buttonDiv.appendChild($signupButton);
-    $form.appendChild($buttonDiv);
-    this.target.appendChild($form);
+  render() {
+    const confirm = [...this.target.children];
+    console.log(this.state.login);
+    if (!this.state.login) {
+      if (!confirm.includes("div_logout_container")) {
+        this.target.appendChild(this.$loginContainer);
+      } else {
+        this.target.replaceChild(this.$loginContainer, this.$logoutContainer);
+      }
+    } else {
+      if (!confirm.includes("div_login_container")) {
+        this.target.appendChild(this.$logoutContainer);
+      } else {
+        this.target.replaceChild(this.$logoutContainer, this.$loginContainer);
+      }
+    }
+  }
+  async submitLogin(data) {
+    try {
+      const result = await fetch("http://localhost:3065/user/login", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }).then((res) => res.json());
+      //   this.state = { ...this.state, login: true, me: result };
+      console.log(this.state);
+      this.render();
+    } catch (err) {
+      console.error(err);
+    }
   }
 }
