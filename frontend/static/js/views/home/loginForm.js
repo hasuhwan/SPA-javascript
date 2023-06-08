@@ -3,14 +3,13 @@ const loginFormArr = [
   { text: "비밀번호", name: "user-password", type: "password" },
 ];
 export default class loginForm {
-  constructor(target, submit) {
-    this.target = target;
+  constructor(submit) {
+    this.$form = document.createElement("form");
     this.render();
     this.submit = submit;
   }
 
   render() {
-    const $form = document.createElement("form");
     const $buttonDiv = document.createElement("div");
     const $loginButton = document.createElement("button");
     $loginButton.innerText = "로그인";
@@ -30,17 +29,16 @@ export default class loginForm {
       $input.name = el.name;
       $inputDiv.appendChild($label);
       $inputDiv.appendChild($input);
-      $form.appendChild($inputDiv);
+      this.$form.appendChild($inputDiv);
     });
     $buttonDiv.appendChild($loginButton);
     $buttonDiv.appendChild($signupButton);
     $loginButton.addEventListener("click", (e) => {
       e.preventDefault();
-      const email = $form.querySelector(".user-email-input").value;
-      const password = $form.querySelector(".user-password-input").value;
+      const email = this.$form.querySelector(".user-email-input").value;
+      const password = this.$form.querySelector(".user-password-input").value;
       this.submit({ email, password });
     });
-    $form.appendChild($buttonDiv);
-    this.target.appendChild($form);
+    this.$form.appendChild($buttonDiv);
   }
 }
