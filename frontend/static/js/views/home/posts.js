@@ -39,7 +39,6 @@ export default class posts {
         lastId: res[res.length - 1].id,
         hasMorePosts: res.length === 10,
       };
-      console.log(res, this.state);
       this.render();
     } catch (err) {
       console.error(err);
@@ -55,7 +54,6 @@ export default class posts {
     }
   }
   onScroll() {
-    console.log(window.scrollY);
     if (
       window.scrollY + document.documentElement.clientHeight >
       document.documentElement.scrollHeight - 300

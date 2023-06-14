@@ -1,6 +1,11 @@
 export default class nav {
   constructor(target) {
     this.target = target;
+    const $nav = document.createElement("nav");
+    $nav.className = "nav";
+    const $a = document.createElement("a");
+    $a.className = "nav_link";
+
     this.render();
   }
   render() {
